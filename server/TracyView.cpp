@@ -49,7 +49,7 @@ View::View( void(*cbMainThread)(const std::function<void()>&, bool), const char*
     , m_staticView( false )
     , m_viewMode( ViewMode::LastFrames )
     , m_viewModeHeuristicTry( true )
-    , m_forceConnectionPopup( true, true )
+    , m_forceConnectionPopup( false, true )
     , m_tc( *this, m_worker, config.threadedRendering )
     , m_frames( nullptr )
     , m_messagesScrollBottom( true )
@@ -697,7 +697,7 @@ bool View::DrawImpl()
     }
 #else
     char tmp[2048];
-    sprintf( tmp, "%s###Profiler", m_worker.GetCaptureName().c_str() );
+    sprintf( tmp, "%s###Profiler", "TracyProfiler");
     ImGui::SetNextWindowSize( ImVec2( 1550, 800 ), ImGuiCond_FirstUseEver );
     ImGui::Begin( tmp, keepOpenPtr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBringToFrontOnFocus );
 #endif
@@ -797,8 +797,8 @@ bool View::DrawImpl()
     ToggleButton( ICON_FA_ARROW_UP_WIDE_SHORT " Statistics", m_showStatistics );
     ImGui::SameLine();
     ToggleButton( ICON_FA_MEMORY " Memory", m_memInfo.show );
-    ImGui::SameLine();
-    ToggleButton( ICON_FA_SCALE_BALANCED " Compare", m_compare.show );
+    // ImGui::SameLine();
+    // ToggleButton( ICON_FA_SCALE_BALANCED " Compare", m_compare.show );
     ImGui::SameLine();
     ToggleButton( ICON_FA_FINGERPRINT " Info", m_showInfo );
     ImGui::SameLine();
@@ -848,7 +848,7 @@ bool View::DrawImpl()
     }
     if( m_worker.AreFramesUsed() )
     {
-        ImGui::SameLine();
+        // ImGui::SameLine();
         if( ImGui::SmallButton( " " ICON_FA_CARET_LEFT " " ) ) ZoomToPrevFrame();
         ImGui::SameLine();
         {

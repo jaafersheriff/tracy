@@ -141,9 +141,9 @@ static constexpr const uint32_t AsmSyntaxColors[] = {
 {
     if( disabled )
     {
-        ImGui::BeginDisabled();
-        ImGui::Button( label );
-        ImGui::EndDisabled();
+        // ImGui::BeginDisabled();
+        // ImGui::Button( label );
+        // ImGui::EndDisabled();
         return false;
     }
     else
