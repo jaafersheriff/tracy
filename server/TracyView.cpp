@@ -667,6 +667,7 @@ bool View::DrawImpl()
         keepOpenPtr = &keepOpen;
     }
 
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
 #ifndef TRACY_NO_ROOT_WINDOW
     if( !m_titleSet && m_stcb )
     {
@@ -674,7 +675,6 @@ bool View::DrawImpl()
         UpdateTitle();
     }
 
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
     {
         auto& style = ImGui::GetStyle();
         const auto wrPrev = style.WindowRounding;
