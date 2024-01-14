@@ -284,6 +284,11 @@ public:
     tracy_force_inline bool is_magic() const { return m_magic; }
     tracy_force_inline void set_magic() { assert( !m_magic ); m_magic = 1; }
 
+    tracy_force_inline uint32_t Capacity() const
+    {
+        return m_ptr == nullptr ? 0 : 1 << m_capacity;
+    }
+
 private:
     tracy_no_inline void AllocMore()
     {
@@ -322,11 +327,6 @@ private:
             free( m_ptr );
         }
         m_ptr = ptr;
-    }
-
-    tracy_force_inline uint32_t Capacity() const
-    {
-        return m_ptr == nullptr ? 0 : 1 << m_capacity;
     }
 
     tracy_force_inline uint32_t CapacityNoNullptrCheck() const
