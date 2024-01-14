@@ -106,6 +106,10 @@ public:
     View( void(*cbMainThread)(const std::function<void()>&, bool), FileRead& f, ImFont* fixedWidth, ImFont* smallFont, ImFont* bigFont, SetTitleCallback stcb, SetScaleCallback sscb, AttentionCallback acb, const Config& config );
     ~View();
 
+    float GetFPS() const;
+    float GetFrametime() const;
+    float GetGPUFrametime() const;
+
     bool Draw();
     bool WasActive() const;
 
