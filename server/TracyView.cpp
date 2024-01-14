@@ -1227,7 +1227,7 @@ float View::GetGPUFrametime() const {
     const auto sz = m_worker.GetFrameCount(*m_frames);
     if (!gpuData.empty()) {
         const auto& timeline = gpuData[0]->threadData.begin()->second.timeline;
-        if (!timeline.is_magic() && timeline.size() > sz) {
+        if (!timeline.is_magic() && timeline.size() > sz - 2) {
             const auto& item = timeline[sz - 2];
             return (item->GpuEnd() - item->GpuStart()) * 1.0e-6;
         }
