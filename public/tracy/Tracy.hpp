@@ -5,7 +5,13 @@
 #include "../common/TracySystem.hpp"
 
 #ifndef TracyFunction
+#ifdef __PRETTY_FUNCTION__
+#  define TracyFunction __PRETTY_FUNCTION__
+#elif defined(__FUNCSIG__)
+#  define TracyFunction __FUNCSIG__
+#else
 #  define TracyFunction __FUNCTION__
+#endif
 #endif
 
 #ifndef TracyFile
