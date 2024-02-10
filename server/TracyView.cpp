@@ -1199,41 +1199,47 @@ bool View::DrawImpl()
 
 float View::GetFPS() const {
     // std::lock_guard<std::mutex> lock(m_worker.GetDataLock());
-    const auto sz = m_worker.GetFrameCount(*m_frames);
-    if (sz > 1)
-    {
-        const auto dt = m_worker.GetFrameTime(*m_frames, sz - 2);
-        return std::floor(1000000000.f / dt);
+    if (m_frames) {
+        const auto sz = m_worker.GetFrameCount(*m_frames);
+        if (sz > 1)
+        {
+            const auto dt = m_worker.GetFrameTime(*m_frames, sz - 2);
+            return std::floor(1000000000.f / dt);
+        }
     }
 
-    return 0.f;
+    return -1.f;
 }
 
 float View::GetFrametime() const {
     // std::lock_guard<std::mutex> lock(m_worker.GetDataLock());
-    const auto sz = m_worker.GetFrameCount(*m_frames);
-    if (sz > 1)
-    {
-        const auto dt = m_worker.GetFrameTime(*m_frames, sz - 2);
-        return dt * 1.0e-6;
+    if (m_frames) {
+        const auto sz = m_worker.GetFrameCount(*m_frames);
+        if (sz > 1)
+        {
+            const auto dt = m_worker.GetFrameTime(*m_frames, sz - 2);
+            return dt * 1.0e-6;
+        }
     }
 
-    return 0.f;
+    return -1.f;
 }
 
 float View::GetGPUFrametime() const {
     // std::lock_guard<std::mutex> lock(m_worker.GetDataLock());
-    const auto& gpuData = m_worker.GetGpuData();
-    const auto sz = m_worker.GetFrameCount(*m_frames);
-    if (!gpuData.empty()) {
-        const auto& timeline = gpuData[0]->threadData.begin()->second.timeline;
-        if (!timeline.is_magic() && timeline.size() > sz - 2 && timeline.Capacity() > 2) {
-            const auto& item = timeline[sz - 2];
-            return (item->GpuEnd() - item->GpuStart()) * 1.0e-6;
+    if (m_frames) {
+        const auto& gpuData = m_worker.GetGpuData();
+        const auto sz = m_worker.GetFrameCount(*m_frames);
+        if (!gpuData.empty()) {
+            const auto& timeline = gpuData[0]->threadData.begin()->second.timeline;
+            if (!timeline.is_magic() && timeline.size() > sz - 2 && timeline.Capacity() > 2) {
+                const auto& item = timeline[sz - 2];
+                return (item->GpuEnd() - item->GpuStart()) * 1.0e-6;
+            }
         }
     }
 
-    return 0.f;
+    return -1.f;
 }
 
 
